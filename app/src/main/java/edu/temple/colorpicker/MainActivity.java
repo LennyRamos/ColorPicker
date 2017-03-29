@@ -8,48 +8,35 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ColorGridFragment.ColorSenderInterface {
 
+    BackgroundChangerFragment receiver;
     boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Resources colorRes = getResources();
 
-        final GridView gridBlock = (GridView) findViewById(R.id.grid);
-        final View mainLayout = findViewById(R.id.activity_main);
+        //Need to add the fragments,by fragment managers
+        ColorGridFragment sender = new ColorGridFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.frag1, sender)
+                .commit();
 
-
-        final String[] actualColors = colorRes.getStringArray(R.array.actualColors);
-        final String[] spanishColors = colorRes.getStringArray(R.array.colors);
-
-        CustomerAdapter adapter = new CustomerAdapter(this, android.R.layout.simple_list_item_1, spanishColors);
-        gridBlock.setAdapter(adapter);
-
-        gridBlock.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(flag) {
-                    //mainLayout.setBackgroundColor(Color.parseColor(((TextView) view).getText().toString()));
-
-                    //Stores the color which was selected as a string
-                    //String color = parent.getSelectedItem().toString();
-
-                    //Creates the intent from main activity to canvas activity
-                    Intent launchActivity = new Intent(MainActivity.this, CanvasActivity.class);
-
-                    //These line is what makes the new screen appear
-                    launchActivity.putExtra(getString(R.string.colorIntent), actualColors[position]);
-                    startActivity(launchActivity);
-
-                }
-                flag = true;
-            }
-
-        });
-
+        receiver = new BackgroundChangerFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.frag2, receiver)
+                .commit();
 
     }
+
+    //Override interface
+    @Override
+public void passColor(String color){
+        receiver.changeBackgroundColor(color);
+
+}
 }

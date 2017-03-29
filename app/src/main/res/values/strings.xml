@@ -24,5 +24,14 @@
         <item>GRIS</item>
 
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">This is fragment Two</string>
+
+    <string name="GridName">Lenny Ramos Grid View</string>
+
+
+    <string name="frag1ID">frag1ID</string>
+    <string name="frag2ID">frag2ID</string>
 </resources>
 
